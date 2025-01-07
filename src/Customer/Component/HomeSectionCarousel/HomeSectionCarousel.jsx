@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import { mens_kurta } from '../../../Data/MenKurta';
 import HomeSectionCard from '../HomeSectionCard/HomeSectionCard';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
-const HomeSectionCarousel = () => {
+const HomeSectionCarousel = ({data,sectionName}) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const responsive = {
@@ -15,7 +14,7 @@ const HomeSectionCarousel = () => {
         1024: { items: 5 },
     };
 
-    const items = mens_kurta.map((item, index) => (
+    const items = data.map((item, index) => (
         <HomeSectionCard key={index} item={item} />
     ));
 
@@ -33,6 +32,7 @@ const HomeSectionCarousel = () => {
 
     return (
         <div className="px-4 lg:px-8">
+            <h2 className="text-2xl font-extrabold text-gray-800 py-5">{sectionName}</h2>
             <div className="relative flex justify-between">
                 <AliceCarousel
                     items={items}
