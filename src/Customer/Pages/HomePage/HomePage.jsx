@@ -15,11 +15,11 @@ const HomePage = () => {
             <MainCarousel />
             <div className = "space-y-10 py-10">
                 <HomeSectionCarousel data={mens_kurta} sectionName="Men's Kurta"/>
-                <HomeSectionCarousel data={mens_kurta} sectionName="Men's Shoes"/>
-                <HomeSectionCarousel data={mens_kurta} sectionName="Trending"/>
-                <HomeSectionCarousel data={mens_kurta} sectionName="Top Rated"/>
-                <HomeSectionCarousel data={mens_kurta} sectionName="On Sale"/>
-                <HomeSectionCarousel data={mens_kurta} sectionName="Featured"/>
+                <HomeSectionCarousel data={mensShoes} sectionName="Men's Shoes"/>
+                <HomeSectionCarousel data={lengha_choli} sectionName="Lengha Choli"/>
+                <HomeSectionCarousel data={saree} sectionName="Saree"/>
+                <HomeSectionCarousel data={dress} sectionName="Dress"/>
+                <HomeSectionCarousel data={gouns} sectionName="Women's Gowns"/>
             </div>
         </div>
     );
