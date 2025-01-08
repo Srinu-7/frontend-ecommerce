@@ -22,6 +22,7 @@ import { dress } from '../../../Data/Dress';
 import { filters, singleFilter } from './Filter';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const sortOptions = [
     { name: 'Price: Low to High', href: '#', current: false },
@@ -33,7 +34,41 @@ function classNames(...classes) {
 }
 
 export default function Product() {
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleFilter = (value,sectionId) =>{
+        const searchParams = new URLSearchParams(location.search); 
+        let filterValue =searchParams.getAll(sectionId); 
+
+        if(filterValue.length > 0 && filterValue[0].split(",").includes(value)){
+
+            filterValue = filterValue[0].split(",").filter((item) => item !== value);
+
+            if(filterValue.length === 0){
+                searchParams.delete(sectionId);
+            }
+            
+        }
+        else{
+            filterValue.push(value);
+        }
+
+        if(filterValue.length > 0){
+            searchParams.set(sectionId,filterValue.join(","));
+        }
+
+        const query = searchParams.toString();
+        navigate({search:`?${query}`});
+    }
+
+    const handleRadioFilterChange = (e,sectionId) =>{
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set(sectionId,e.target.value);
+        const query = searchParams.toString();
+        navigate({search:`?${query}`});
+    };
 
     return (
         <div className="bg-white">
@@ -64,7 +99,7 @@ export default function Product() {
 
                             {/* Filters */}
                             <form className="mt-4 border-t border-gray-200">
-                                {/* {filters.map((section) => (
+                                {filters.map((section) => (
                                     <Disclosure key={section.id} as="div" className="border-t border-gray-200 px-4 py-6">
                                         <h3 className="-mx-2 -my-3 flow-root">
                                             <DisclosureButton className="group flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
@@ -179,7 +214,7 @@ export default function Product() {
                                             </div>
                                         </DisclosurePanel>
                                     </Disclosure>
-                                ))} */}
+                                ))}
                             </form>
                         </DialogPanel>
                     </div>
@@ -271,6 +306,7 @@ export default function Product() {
                                                             <div className="flex h-5 shrink-0 items-center">
                                                                 <div className="group grid size-4 grid-cols-1">
                                                                     <input
+                                                                        onChange={() =>handleFilter(option.value,section.id)}
                                                                         defaultValue={option.value}
                                                                         defaultChecked={option.checked}
                                                                         id={`filter-${section.id}-${optionIdx}`}
@@ -334,7 +370,7 @@ export default function Product() {
                                                                     <div key={option.value} className="flex gap-3">
 
                                                                         <>
-                                                                            <FormControlLabel value={option.id} control={<Radio />} label={option.label} />
+                                                                            <FormControlLabel onChange={(e)=>handleRadioFilterChange(e,section.id)}value={option.value} control={<Radio />} label={option.label} />
                                                                         </>
                                                                     </div>
                                                                 ))}
