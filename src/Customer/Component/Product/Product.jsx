@@ -17,7 +17,7 @@ import {
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import ProductCard from './ProductCard';
-import { mens_kurta } from '../../../Data/menKurta';
+import { mens_kurta } from '../../../Data/MenKurta';
 import { dress } from '../../../Data/Dress';
 import { filters, singleFilter } from './Filter';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
