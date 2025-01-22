@@ -11,7 +11,7 @@ import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../State/Auth/Action";
+import { getUser, logout } from "../../State/Auth/Action";
 import AuthModal from "../../Auth/AuthModal";
 import { navigation } from "./Navigation/navigation";
 
@@ -57,17 +57,24 @@ export default function Navigation() {
 
   useEffect(()=>{
 
+    console.log('Current user:', auth.user);
+    console.log('Current pathname:', location.pathname);
+
     if(auth.user){
       handleClose()
     }
 
     if(location.pathname === "/login" || location.pathname === "/register"){
+      console.log(location.pathname);
       navigate(-1);
     }
 
   },[auth.user])
 
-
+  const handleLogout=()=>{
+    dispatch(logout());
+    handleCloseUserMenu();
+  }
 
   return (
     <div className="bg-white pb-10">
@@ -399,7 +406,7 @@ export default function Navigation() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {auth.user?.firstName?(
+                  {auth.user?.email?(
                     <div>
                       <Avatar
                         className="text-white"
@@ -414,7 +421,7 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        {auth.user?.firstName[0].toUpperCase()}
+                        {auth.user.email[0].toUpperCase()}
                       </Avatar>
                       <Menu
                         id="basic-menu"
@@ -427,7 +434,7 @@ export default function Navigation() {
                       >
                         <MenuItem>My Profile</MenuItem>
                         <MenuItem onClick = {() => navigate("/account/order")}>My Orders</MenuItem>
-                        <MenuItem >Logout</MenuItem>
+                        <MenuItem onClick = {handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
                   ) : (

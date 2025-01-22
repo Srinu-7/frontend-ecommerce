@@ -22,7 +22,7 @@ export const register = (userData) => async (dispatch) =>{
 
         console.log("user ",user);
 
-        dispatch(registerSuccess(user.jwt));
+        dispatch(registerSuccess({ user: user, jwt: user.jwt }));
         
     } catch (error) {
         dispatch(registerFailure(error.message));
@@ -33,26 +33,34 @@ const loginRequest =()=>({type:LOGIN_REQUEST});
 const loginSuccess =(user)=>({type:LOGIN_SUCCESS,payload:user});
 const loginFailure =(error)=>({type:LOGIN_FAILURE,payload:error});
 
-export const login = (userData) => async (dispatch) =>{
-
-    dispatch(loginRequest())
+export const login = (userData) => async (dispatch) => {
+    dispatch(loginRequest());
 
     try {
+        const response = await axios.post(`${API_BASE_URL}/auth/signIn`, userData);
+        
+        // Extracting jwtToken from the response data
+        const jwtToken = response.data.jwtToken; // Ensure this matches the API response structure
 
-        const response = await axios.post(`${API_BASE_URL}/auth/signIn`,userData);
+        console.log("Login response:", response); // Log the entire response
+        console.log("User after login:", userData); // Log the user data sent
 
-        const user = response.data;
+        // Prepare the user object to include email from userData
+        const user = {
+            email: userData.email,
+            jwt: jwtToken // Include the JWT token
+        };
 
-        if(user.jwt) localStorage.setItem("jwt",user.jwt);
+        if (jwtToken) localStorage.setItem("jwt", jwtToken); // Store JWT in local storage
 
-        console.log("user ",user);
-
-        dispatch(loginSuccess(user.jwt));
+        // Dispatch the login success action with the user object and JWT
+        dispatch(loginSuccess({ user, jwt: jwtToken }));
         
     } catch (error) {
+        console.error("Login error:", error); 
         dispatch(loginFailure(error.message));
     }
-}
+};
 
 const getUserRequest =()=>({type:GET_USER_REQUEST});
 const getUserSuccess =(user)=>({type:GET_USER_SUCCESS,payload:user});
@@ -83,4 +91,5 @@ export const getUser = (jwt) => async (dispatch) =>{
 
 export const logout = ()=>(dispatch)=>{
     dispatch({type:LOGOUT,payload:null})
+    localStorage.clear();
 }
