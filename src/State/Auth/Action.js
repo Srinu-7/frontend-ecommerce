@@ -20,8 +20,6 @@ export const register = (userData) => async (dispatch) =>{
 
         if(user.jwt) localStorage.setItem("jwt",user.jwt);
 
-        console.log("user ",user);
-
         dispatch(registerSuccess({ user: user, jwt: user.jwt }));
         
     } catch (error) {
@@ -42,9 +40,6 @@ export const login = (userData) => async (dispatch) => {
         // Extracting jwtToken from the response data
         const jwtToken = response.data.jwtToken; // Ensure this matches the API response structure
 
-        console.log("Login response:", response); // Log the entire response
-        console.log("User after login:", userData); // Log the user data sent
-
         // Prepare the user object to include email from userData
         const user = {
             email: userData.email,
@@ -57,7 +52,6 @@ export const login = (userData) => async (dispatch) => {
         dispatch(loginSuccess({ user, jwt: jwtToken }));
         
     } catch (error) {
-        console.error("Login error:", error); 
         dispatch(loginFailure(error.message));
     }
 };
@@ -79,8 +73,6 @@ export const getUser = (jwt) => async (dispatch) =>{
         });
 
         const user = response.data;
-
-        console.log("user ",user);
 
         dispatch(getUserSuccess(user));
         

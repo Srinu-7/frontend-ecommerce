@@ -57,15 +57,11 @@ export default function Navigation() {
 
   useEffect(()=>{
 
-    console.log('Current user:', auth.user);
-    console.log('Current pathname:', location.pathname);
-
     if(auth.user){
       handleClose()
     }
 
     if(location.pathname === "/login" || location.pathname === "/register"){
-      console.log(location.pathname);
       navigate(-1);
     }
 

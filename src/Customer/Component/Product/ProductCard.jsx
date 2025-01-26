@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const ProductCard = ({item}) => {
     const navigate = useNavigate();
     return (
-        <div onClick={ () => navigate(`/product/${5}`)}className='productCard w-[15rem] m-3 cursor-pointer transition-all'>
+        <div onClick={ () => navigate(`/product/${item.id}`)}className='productCard w-[15rem] m-3 cursor-pointer transition-all'>
             <div className="h-[20rem]">
                 <img className='h-full w-full object-cover object-left-top' src={item.imageUrl} alt="" />
             </div>
@@ -17,7 +17,7 @@ const ProductCard = ({item}) => {
                 <div className = 'flex items-center space-x-2'>
                     <p className = 'font-semibold'>₹{item.discountedPrice}</p>
                     <p className = 'line-through opacity-50'>₹{item.price}</p>
-                    <p className = 'text-green-600'>{item.discountPersent}% off</p>
+                    <p className = 'text-green-600'>{item.discountPercentage}% off</p>
                 </div>
             </div>
         </div>

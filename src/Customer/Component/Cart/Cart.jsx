@@ -1,20 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CartItem from './CartItem'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCart } from '../../../State/Cart/Action'
 
 const Cart = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {cart} = useSelector(state=>state);
 
     const handleCheckOut = () => {
-        navigate("/checkout?step=2");
+        navigate(`/checkout?step=${2}`);
     }
+
+    useEffect(()=>{
+        dispatch(getCart());
+    },[cart.cartItems])
     return (
         <div>
 
             <div className='lg:grid grid-cols-3 lg:px-16 relative'>
                 <div className='col-span-2'>
-                    {[1,1,1,1,1,1].map((item) => <CartItem />)}
+                    {cart?.cartItems?.map((item) => <CartItem item = {item} />)}
                 </div>
                 <div className='px-5 sticky top-0 h-[100vh] mt-5 lg:mt-0'>
                     <div className='border'>
@@ -22,20 +30,20 @@ const Cart = () => {
                         <hr />
                         <div className='space-y-3 font-semibold'>
                             <div className='flex justify-between pt-3 text-black'>
-                                <p>Price</p>
-                                <p>₹ 5000</p>
+                                <p>Price({cart?.cartItems?.length} items)</p>
+                                <p>₹{cart?.cart?.totalPrice}</p>
                             </div>
                             <div className='flex justify-between pt-3 text-black'>
                                 <p>Discount</p>
-                                <p className='text-green-600'>- ₹ 1500</p>
+                                <p className='text-green-600'>-₹{cart?.cart?.discount}</p>
                             </div>
                             <div className='flex justify-between pt-3 text-black'>
                                 <p>Delivery Charges</p>
-                                <p className='text-green-600'>₹ 50</p>
+                                <p className='text-green-600'>Free</p>
                             </div>
                             <div className='flex justify-between pt-3 text-black'>
                                 <p>Total Amount</p>
-                                <p className='text-green-600'>₹ 3450</p>
+                                <p className='text-green-600'>₹{cart?.cart?.totalDiscountedPrice}</p>
                             </div>
                         </div>
 
