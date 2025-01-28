@@ -3,7 +3,7 @@ import React from 'react'
 
 const steps = ['Placed', 'Order Confirmed', 'Shipped', 'Out for Delivery', 'Delivered']
 
-const OrderTracker = (activeStep) => {
+const OrderTracker = ({activeStep}) => {
   return (
     <div className='w-full mt-5 mb-5'>
         <Stepper activeStep={activeStep} alternativeLabel>

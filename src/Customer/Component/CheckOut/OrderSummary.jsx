@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getOrderById } from '../../../State/Order/Action'
 import { useLocation } from 'react-router-dom'
+import { createPayment } from '../../../State/Payment/Action'
 
 
 const OrderSummary = () => {
@@ -14,11 +15,15 @@ const OrderSummary = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const order_id = searchParams.get("order_id");
-    console.log(order);
+    // console.log(order);
 
     useEffect(()=>{
         dispatch(getOrderById(order_id))
     },[order_id])
+
+    const handleCheckOut = () => {
+        dispatch(createPayment(order_id))
+    }
     return (
         <div>
             <div className='p-5 shadow-lg rounded-md '>
@@ -49,11 +54,11 @@ const OrderSummary = () => {
                                 </div>
                                 <div className='flex justify-between pt-3 text-black'>
                                     <p>Total Amount</p>
-                                    <p className='text-green-600'>₹ {order?.order?.totalPrice}</p>
+                                    <p className='text-green-600'>₹ {order?.order?.totalDiscountPrice}</p>
                                 </div>
                             </div>
 
-                            <Button variant='contained' className='w-full' sx={{ px: "2.5rem", py: "0.7rem", bgColor: "#9155fd", mt: "3rem" }}>
+                            <Button variant='contained' className='w-full' sx={{ px: "2.5rem", py: "0.7rem", bgColor: "#9155fd", mt: "3rem" }} onClick = {handleCheckOut}>
                                 Check Out
                             </Button>
                         </div>

@@ -4,18 +4,21 @@ import OrderTracker from './OrderTracker'
 import { Box, Grid } from '@mui/material'
 import { deepPurple } from '@mui/material/colors'
 import StarRateIcon from '@mui/icons-material/StarRate';
+import { useSelector } from 'react-redux'
 
 const OrderDetails = () => {
+    const {order} = useSelector(store=>store);
+    console.log(order);
     return (
         <div className='px-5 lg:px-20'>
 
             <div>
                 <h1 className='text-xl font-bold py-7'>Delivery Address</h1>
-                <AddressCard />
+                <AddressCard item = {order?.order?.shippingAddress}/>
             </div>
 
             <div>
-                <OrderTracker activeStep={2} />
+                <OrderTracker activeStep={5} />
             </div>
 
             <Grid container className='space-y-5'>

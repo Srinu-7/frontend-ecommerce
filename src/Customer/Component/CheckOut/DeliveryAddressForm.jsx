@@ -31,7 +31,7 @@ const DeliveryAddressForm = () => {
             navigate
         };
 
-        console.log("address data : ",address);
+        // console.log("address data : ",address);
 
         dispatch(createOrder(reqData));
     };
@@ -40,7 +40,7 @@ const DeliveryAddressForm = () => {
             <Grid container spacing={4}>
                 <Grid xs={12} lg={5} className='border rounded-md shadow-md h-[30.5rem] overflow-y-scroll'>
                     <div className='p-5 py-7 border-b cursor-pointer'>
-                        <AddressCard item = {order?.order?.shippingAddress}/>
+                        <AddressCard item = {order.order?.shippingAddress}/>
                         <Button sx={{ mt: 2, bgcolor: "RGB(145 85 253)" }} size='large' variant='contained'>Deliver Here</Button>
                     </div>
                 </Grid>
