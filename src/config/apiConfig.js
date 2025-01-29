@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://ec2-13-60-167-22.eu-north-1.compute.amazonaws.com:8081";
+export const API_BASE_URL = "http://e-commerce-backend-production-4ef0.up.railway.app";
 
 const jwt = localStorage.getItem("jwt");
 
